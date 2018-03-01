@@ -2,16 +2,19 @@ package ru.geekbrains.android3_1;
 
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.constraint.solver.Cache;
 import android.util.Log;
 import android.widget.Button;
 
-import com.hannesdorfmann.mosby.mvp.MvpActivity;
+import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
+import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView {
+
+public class MainActivity extends MvpViewStateActivity<MainView, MainPresenter> implements MainView {
     final static String BTN_COUNTER1 = "btn1";
     final static String BTN_COUNTER2 = "btn2";
     final static String BTN_COUNTER3 = "btn3";
@@ -23,9 +26,8 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @BindView(R.id.btnCounter3)
     Button button3;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.w("A_STATE", "CREATE");
+        Log.d("A_STATE", "CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -70,28 +72,29 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @Override
     protected void onStart() {
         super.onStart();
-        Log.w("A_STATE", "START");
+        Log.d("A_STATE", "START");
+        Cache chache = new Cache();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.w("A_STATE", "RESUME");
+        Log.d("A_STATE", "RESUME");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w("A_STATE", "PASUE");
+        Log.d("A_STATE", "PASUE");
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.w("A_STATE", "STOP");
+        Log.d("A_STATE", "STOP");
 
 
     }
@@ -99,28 +102,32 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.w("A_STATE", "DESTROY");
+        Log.d("A_STATE", "DESTROY");
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putCharSequence(button1.toString(),button1.getText());
-        outState.putCharSequence(BTN_COUNTER2,button2.getText());
-        outState.putCharSequence(BTN_COUNTER3,button3.getText());
-        Log.w("A_STATE", "SAVE INSTANCE" + button1.toString());
+        Log.d("A_STATE", "SAVE INSTANCE" + button1.toString());
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        button1.setText(savedInstanceState.getCharSequence(button1.toString()));
-        button2.setText(savedInstanceState.getCharSequence(BTN_COUNTER2));
-        button3.setText(savedInstanceState.getCharSequence(BTN_COUNTER3));
-        Log.w("A_STATE", "RESTORE INSTANCE");
+        Log.d("A_STATE", "RESTORE INSTANCE");
 
+
+    }
+
+    @Override
+    public ViewState<MainView> createViewState() {
+        return new MyCustomViewState();
+    }
+
+    @Override
+    public void onNewViewStateInstance() {
 
     }
 }
