@@ -8,50 +8,51 @@ import android.widget.Button;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends MvpViewStateActivity<MainView, MainPresenter> implements MainView {
-    final static String BTN_COUNTER1 = "btn1";
-    final static String BTN_COUNTER2 = "btn2";
-    final static String BTN_COUNTER3 = "btn3";
 
-    @BindView(R.id.btnCounter1)
-    Button button1;
-    @BindView(R.id.btnCounter2)
-    Button button2;
-    @BindView(R.id.btnCounter3)
-    Button button3;
+    @BindView(R.id.btnCounter1)    Button button1;
+    @BindView(R.id.btnCounter2)    Button button2;
+    @BindView(R.id.btnCounter3)    Button button3;
+
+    protected Disposable button1Subscription;
+    protected Disposable button2Subscription;
+    protected Disposable button3Subscription;
 
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("A_STATE", "CREATE");
         super.onCreate(savedInstanceState);
+        Log.d("A_STATE", "CREATE");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        onButton1Click();
+        onButton2Click();
+        onButton3Click();
+    }
+
+    private void onButton3Click() {
+        button1Subscription = RxView.clicks(button1).subscribe(o -> presenter.button1Click());
+    }
+
+    private void onButton2Click() {
+        button2Subscription = RxView.clicks(button2).subscribe(o -> presenter.button2Click());
+    }
+
+    private void onButton1Click() {
+        button3Subscription = RxView.clicks(button3).subscribe(o -> presenter.button3Click());
+
     }
 
     @NonNull
     @Override
     public MainPresenter createPresenter() {
         return new MainPresenter();
-    }
-
-    @OnClick({R.id.btnCounter1, R.id.btnCounter2, R.id.btnCounter3})
-    public void buttonClick(Button button) {
-        switch (button.getId()) {
-            case R.id.btnCounter1:
-                presenter.buttonClick(0);
-                break;
-            case R.id.btnCounter2:
-                presenter.buttonClick(1);
-                break;
-            case R.id.btnCounter3:
-                presenter.buttonClick(2);
-                break;
-        }
     }
 
     @Override
@@ -78,56 +79,24 @@ public class MainActivity extends MvpViewStateActivity<MainView, MainPresenter> 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("A_STATE", "RESUME");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("A_STATE", "PASUE");
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("A_STATE", "STOP");
-
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("A_STATE", "DESTROY");
-
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("A_STATE", "SAVE INSTANCE" + button1.toString());
-
+        Log.d("A_STATE", "SAVE INSTANCE");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.d("A_STATE", "RESTORE INSTANCE");
-
-
     }
 
     @Override
     public ViewState<MainView> createViewState() {
-        return new MyCustomViewState();
+        return MyCustomViewState.getInstatnce();
     }
 
     @Override
     public void onNewViewStateInstance() {
-
+        System.out.println("NewViewInstance");
     }
 }

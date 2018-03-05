@@ -23,19 +23,18 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         return model.getAt(index);
     }
 
-    public void buttonClick(int index) {
-        switch (index) {
-            case BTN1:
-                getView().setButtonText(BTN1, calculateCounterValue(BTN1));
-                break;
-            case BTN2:
-                getView().setButtonText(BTN2, calculateCounterValue(BTN2));
-                break;
-            case BTN3:
-                getView().setButtonText(BTN3, calculateCounterValue(BTN3));
-                break;
-        }
+    public void button1Click() {
+        getView().setButtonText(BTN1, calculateCounterValue(BTN1));
     }
+
+    public void button2Click(){
+        getView().setButtonText(BTN2, calculateCounterValue(BTN2));
+    }
+
+    public void button3Click(){
+        getView().setButtonText(BTN3, calculateCounterValue(BTN3));
+    }
+
 
     @Override
     public void attachView(MainView view) {

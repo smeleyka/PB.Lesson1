@@ -2,11 +2,7 @@ package ru.geekbrains.android3_1;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
-import com.hannesdorfmann.mosby.mvp.MvpView;
-import com.hannesdorfmann.mosby.mvp.viewstate.MvpViewStateActivity;
 import com.hannesdorfmann.mosby.mvp.viewstate.RestorableViewState;
-import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 /**
  * Created by smeleyka on 01.03.18.
@@ -18,7 +14,7 @@ public class MyCustomViewState implements RestorableViewState<MainView> {
     private MyCustomViewState() {
     }
 
-    public synchronized MyCustomViewState getInstatnce() {
+    public static synchronized MyCustomViewState getInstatnce() {
         if (instance == null) {
             return new MyCustomViewState();
         }
@@ -29,10 +25,13 @@ public class MyCustomViewState implements RestorableViewState<MainView> {
     @Override
     public void saveInstanceState(@NonNull Bundle out) {
 
+        System.out.println("Save");
     }
 
     @Override
     public RestorableViewState<MainView> restoreInstanceState(Bundle in) {
+        System.out.println("Restore");
+
         return null;
     }
 
