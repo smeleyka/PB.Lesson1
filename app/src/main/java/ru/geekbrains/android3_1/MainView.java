@@ -8,5 +8,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface MainView extends MvpView
 {
-     public void setButtonText(int index, int value);
+     public void setButton1Text(int value);
+     public void setButton2Text(int value);
+     public void setButton3Text(int value);
 }

@@ -2,15 +2,13 @@ package ru.geekbrains.android3_1;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by stanislav on 2/26/2018.
  */
 
 public class MainPresenter extends MvpBasePresenter<MainView> {
-
-    public final int BTN1 = 0;
-    public final int BTN2 = 1;
-    public final int BTN3 = 2;
 
     private CounterModel model;
 
@@ -18,23 +16,17 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         this.model = new CounterModel();
     }
 
-    private int calculateCounterValue(int index) {
-        model.setAt(index, model.getAt(index) + 1);
-        return model.getAt(index);
-    }
-
     public void button1Click() {
-        getView().setButtonText(BTN1, calculateCounterValue(BTN1));
+        model.getAt(0).subscribe(integer -> getView().setButton1Text(integer));
     }
 
     public void button2Click(){
-        getView().setButtonText(BTN2, calculateCounterValue(BTN2));
+        model.getAt(0).subscribe(integer -> getView().setButton1Text(integer));
     }
 
     public void button3Click(){
-        getView().setButtonText(BTN3, calculateCounterValue(BTN3));
+        model.getAt(0).subscribe(integer -> getView().setButton1Text(integer));
     }
-
 
     @Override
     public void attachView(MainView view) {

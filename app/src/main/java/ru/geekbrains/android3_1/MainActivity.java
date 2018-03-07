@@ -18,9 +18,12 @@ import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends MvpViewStateActivity<MainView, MainPresenter> implements MainView {
 
-    @BindView(R.id.btnCounter1)    Button button1;
-    @BindView(R.id.btnCounter2)    Button button2;
-    @BindView(R.id.btnCounter3)    Button button3;
+    @BindView(R.id.btnCounter1)
+    Button button1;
+    @BindView(R.id.btnCounter2)
+    Button button2;
+    @BindView(R.id.btnCounter3)
+    Button button3;
 
     protected Disposable button1Subscription;
     protected Disposable button2Subscription;
@@ -56,19 +59,20 @@ public class MainActivity extends MvpViewStateActivity<MainView, MainPresenter> 
     }
 
     @Override
-    public void setButtonText(int index, int value) {
-        switch (index) {
-            case 0:
-                button1.setText(String.format(getString(R.string.count), value));
-                break;
-            case 1:
-                button2.setText(String.format(getString(R.string.count), value));
-                break;
-            case 2:
-                button3.setText(String.format(getString(R.string.count), value));
-                break;
-        }
+    public void setButton1Text(int value) {
+        button1.setText(String.format(getString(R.string.count), value));
     }
+
+    @Override
+    public void setButton2Text(int value) {
+        button2.setText(String.format(getString(R.string.count), value));
+    }
+
+    @Override
+    public void setButton3Text(int value) {
+        button3.setText(String.format(getString(R.string.count), value));
+    }
+
 
     @Override
     protected void onStart() {
